@@ -1,0 +1,212 @@
+\documentclass[oneside]{book}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PACKAGES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% STANDARD
+
+\usepackage{etoolbox}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage{xparse}
+\usepackage{xstring}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{diagbox}
+\usepackage{listings}
+\usepackage{rotating} %sideways environment
+\usepackage[toc,page]{appendix}
+
+% PROOF READING
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+% URL WITHIN THE PDF
+
+\usepackage{hyperref}
+
+% BIBLIOGRAPHY
+
+\usepackage[nottoc,numbib]{tocbibind}
+
+% TABLES
+
+\usepackage{booktabs}
+\usepackage{makecell}
+
+
+
+% SYMBOLS
+
+\usepackage{pifont}
+\usepackage{fontawesome}
+\usepackage{textcomp} %TM
+
+% URL
+
+\usepackage{url}
+
+% WARNING NOTES
+
+\usepackage{mdframed}
+
+
+
+
+
+% TIKZ
+
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, matrix, arrows,automata,positioning}
+
+% FONTS AND COLORS
+
+\usepackage{xcolor}
+\usepackage{cancel}
+
+% THEOREMS & MATHS
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{mathtools}
+
+% ALGORITHMS
+
+\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+
+% GLOSSARIES
+
+\usepackage[toc,acronym,style=index]{glossaries}
+\usepackage[postdot]{glossaries-extra}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% IMPORTS OF CUSTOM COMMANDS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\input{src/cmds/commons.tex}
+\input{src/cmds/commons-easy.tex}
+\input{src/cmds/commands-shared.tex}
+\input{src/cmds/commands-listing.tex}
+\input{src/cmds/commands.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GEOMTRIES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\renewcommand{\dblfloatpagefraction}{0.95}
+\renewcommand{\dbltopfraction}{1}
+\renewcommand{\topfraction}{1}
+\renewcommand{\textfraction}{0.0}
+\renewcommand{\floatpagefraction}{1}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% DOCUMENT FRONT PAGE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{Age of Empires DE, a tutorial for modding}
+\author{Koldar}
+\date{\today}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% THEOREMS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%declare theorem, definitions, corollary, lemmas
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+
+\newtheorem{definition}{Definition}[section]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GLOSSARIES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% see http://tug.ctan.org/macros/latex/contrib/glossaries/glossariesbegin.pdf
+\setabbreviationstyle[acronym]{long-short}% glossaries-extra.sty only
+
+\newglossary*{terms}{Terms}
+%acronym glossary is automatically added by flag acronym \newglossary[alg]{acronym}{acr}{acn}{\acronymname}
+
+\makeglossaries
+\input{src/glossaries/glossary.tex}
+\input{src/glossaries/commons-glossary.tex}
+\input{src/glossaries/acronym.tex}
+\input{src/glossaries/commons-acronym.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAIN DOCUMENT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+%see https://tex.stackexchange.com/a/13920/145331
+\begin{titlepage}
+    \centering
+    \vfill
+    {\bfseries\Large
+        \makeatletter\@title\makeatother
+        
+        \vskip2cm
+
+        \makeatletter\@author\makeatother
+        
+        \vskip2cm
+
+        Version 1.0.0
+        \\
+    }    
+    \vfill
+    \includegraphics[width=0.5\textwidth]{src/images/logo}
+    \vfill
+    \vfill
+    Date: \makeatletter\@date\makeatother
+\end{titlepage}
+\clearpage
+
+\frontmatter
+
+\tableofcontents
+\clearpage
+
+\listoffigures
+\clearpage
+
+%\listofalgorithms
+%\clearpage
+ 
+\listoftables
+\clearpage
+
+%\printunsrtglossaries
+\printglossary[type=\acronymtype]
+\clearpage
+
+\input{src/texs/00-about-this-report.tex}
+
+\mainmatter
+\input{src/texs/01-introduction.tex}
+\input{src/texs/02-basic-and-definitions.tex}
+\input{src/texs/03-creating-basic-mod.tex}
+
+\clearpage
+
+
+\backmatter
+
+\input{src/texs/80-appendix.tex}
+
+\printglossary[type={terms}]
+\clearpage
+\backmatter
+
+\input{src/texs/90-bibliography.tex}
+
+\end{document}

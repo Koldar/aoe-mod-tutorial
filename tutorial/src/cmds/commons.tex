@@ -1,0 +1,308 @@
+\usepackage{calculator}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% REFERENCES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\makeatletter
+
+% Add a reference to a section
+% param1 the label of the section
+\NewDocumentCommand{\lstref}{m}{%
+    Listing \ref{#1}%
+}
+
+% Add a reference to a section
+% param1 the label of the section
+\NewDocumentCommand{\listingref}{m}{%
+    Listing \ref{#1}%
+}
+
+
+% Add a reference to a subsubsection
+% param1 the label of the subsubsection
+\NewDocumentCommand{\subsubsectionref}{m}{%
+    Sub Sub Section \ref{#1}%
+}
+
+% Add a reference to a section
+% param1 the label of the section
+\NewDocumentCommand{\sectionref}{m}{%
+    Section \ref{#1}%
+}
+
+% Add a reference to a equation
+% param1 the label of the equation
+\NewDocumentCommand{\equationref}{m}{%
+    Equation \eqref{#1}%
+}
+
+% Add a reference to a algorithm line
+% param1 the label of the algorithm line
+\NewDocumentCommand{\alglineref}{m}{%
+    Line \ref{#1}%
+}
+
+% Add a reference to a algorithm line
+% param1 the label of the algorithm where piece starts
+% param1 the label of the algorithm where priece ends
+\NewDocumentCommand{\alglinesref}{m m}{%
+    Lines \ref{#1}--\ref{#2}%
+}
+
+% Add a reference to an algorithm
+% param1 the label of the algorithm
+\NewDocumentCommand{\algref}{m}{%
+    Algorithm \ref{#1}%
+}
+
+% Add a reference to a definition
+% param1 the label of the definition
+\NewDocumentCommand{\defref}{m}{%
+    Definition \ref{#1}%
+}
+
+% Add a reference to a definition
+% param1 the label of the first definition
+% param2 the label of the second definition
+\NewDocumentCommand{\defsref}{m m}{%
+    Definitions \ref{#1}--\ref{#2}%
+}
+
+% Add a reference to a figure
+% param1 the label of the figure
+\NewDocumentCommand{\figref}{m}{%
+    Figure \ref{#1}%
+}
+
+% Add a reference to a range of figure
+% param1 the label of the first figure in the range (inclusive)
+% param2 the label of the last figure in the range (inclusive)
+\NewDocumentCommand{\figsref}{m m}{%
+    Figures \ref{#1}--\ref{#2}%
+}
+
+
+\NewDocumentCommand{\r@figrefs}{m}{%
+    \@ifnextchar\bgroup{, \ref{#1}\r@figrefs}{ and \ref{#1}}%
+}
+% Add a reference to a figure
+% param1 the label of the figure
+\NewDocumentCommand{\figrefs}{m}{%
+    Figures \ref{#1}\r@figrefs%
+}
+
+% Add a reference to a table
+% param1 the label of the table
+\NewDocumentCommand{\tblref}{m}{%
+    Table \ref{#1}%
+}
+
+% Add a reference to a theorem
+% param1 the label of the table
+\NewDocumentCommand{\thmref}{m}{%
+    Theorem \ref{#1}%
+}
+
+% Add a reference to a lemma
+% param1 the label of the lemma
+\NewDocumentCommand{\lemmaref}{m}{%
+    Lemma \ref{#1}%
+}
+
+% Add a reference to an example
+% param1 the label of the example
+\NewDocumentCommand{\exampleref}{m}{%
+    Example \ref{#1}%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% EXAMPLE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\theoremstyle{definition}
+\newtheorem{example}{Example}[section]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% USEFUL COMMANDS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%DOES NOT WORK
+\NewDocumentEnvironment{verticalAlign}{+b}{%
+    \topskip0pt%
+    \vspace*{\fill}%
+    {#1}%
+    \vspace*{\fill}%
+}{%
+}
+
+% Indent a body of text
+% param1 dimension representing the space you want to indent
+% param2 body actual content to put in the indented wall of text
+\NewDocumentEnvironment{indentText}{O{3cm} +b}{%
+    \begin{minipage}{\dimexpr\textwidth-#1}%
+        #2%
+        \xdef\tpd{\the\prevdepth}%
+    \end{minipage}%
+}{%
+}
+
+% Put a definition block in the text
+%
+% param1 the definition name. If not specified we won't have a definition
+% param2 the label we want this definition to have. Input of \label. If not specified we won't put the \label command
+% param3 the content of the definition
+% \NewDocumentEnvironment{definition}{o o +b}{%
+%     %BEGIN
+%     \IfNoValueTF{#1}{%
+%         \begin{theorem}%
+%     }{%
+%         \begin{theorem}[#1]%
+%     }%
+%     \IfNoValueF{#2}{%
+%         \label{#2}%
+%     }%
+%     #2%
+%     \end{theorem}%
+% }{%
+%     %END
+% }
+%     \IfNoValueTF{#1}{%
+%         \begin{theorem}
+%     }{%
+%     }%
+% }
+
+\NewDocumentCommand{\setFontSize}{m o m}{%
+    \IfNoValueF{#2}{%
+        \fontsize{#1}{#2}\selectfont#3%
+    }{%
+        % see https://texblog.org/2012/08/29/changing-the-font-size-in-latex/
+        \MULTIPLY{#1}{1.2}{\setFont@baseline}%
+        \fontsize{#1}{\setFont@baseline}\selectfont#3%
+    }%
+}
+
+% Adds a todo embedded in the text (colored blue)
+% param1: an optional star: if a star is present, we will put the todo as a footnote
+% param2: the text to put
+\NewDocumentCommand{\todo}{s m}{%
+    \IfBooleanTF{#1}{%
+        \footnote{\color{blue} #2}%
+    }{%
+        {\color{blue} #2}%
+    }%
+}
+
+%Adds a todo as a footnoe
+\NewDocumentCommand{\code}{m}{%
+    \texttt{#1}%
+}
+
+% draw a square.
+% param1: fill color red!50
+% param2: border color (default to black)
+\NewDocumentCommand{\drawFilledSquare}{m O{black}}{%
+    \begin{tikzpicture}%
+        \node [rectangle,draw={#2},fill={#1}] (m) at (0,0) {};%
+    \end{tikzpicture}%
+}
+
+% print a computer science ordered pair
+% param1 first element of the pair
+% param2 second element of the pair
+\NewDocumentCommand{\paircs}{m m}{%
+    \wrapMath{\langle {#1}, {#2} \rangle }%
+}
+
+\NewDocumentEnvironment{coloredBlock}{m O{blue} O{white}}{%
+\setbeamercolor{block title}{bg=#2, fg=#3}
+    \begin{block}{#1}%
+}{%
+    \end{block}%
+}
+
+\NewDocumentCommand{\stacksymbols}{m m}{%
+    \wrapMath{\stackrel{\mathclap{#1}}{#2}}%
+}
+
+\NewDocumentCommand{\bigO}{m}{%
+    \wrapMath{\mathcal{O}(#1)}%
+}
+
+\NewDocumentCommand{\nil}{}{%
+    \texttt{NIL}%
+}
+
+\NewDocumentCommand{\doublePlus}{}{%
+    \ifmmode{+\!\!+}\else{$+\!\!+$}\fi%
+}
+
+\NewDocumentCommand{\isInMath}{m m}{%
+    \ifmmode{#1}\else{#2}\fi%
+}
+
+\NewDocumentCommand{\wrapMath}{m}{%
+    \ifmmode{#1}\else{$#1$}\fi%
+}
+
+%apply double quotes on the parameter
+% param1 the text to wrap quote
+\NewDocumentCommand{\dquote}{m}{%
+    ``{#1}''%
+}
+
+\NewDocumentCommand{\squote}{m}{%
+    \isInMath%
+        {\mbox{`}{#1}\mbox{'}}%
+        {`{#1}'}%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SYMBOLS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% draw a "v" representing a checkbox which has been checked
+\NewDocumentCommand{\checked}{}{%
+\tikz\fill[scale=0.4](0,.35) -- (.25,0) -- (1,.7) -- (.25,.15) -- cycle;%
+}
+
+% draw a "x" representing a checkbox which has been checked
+\NewDocumentCommand{\unchecked}{}{%
+\tikz\fill[scale=0.4]%
+    (-0.35,+0.35) -- (+0.00,+0.07) --%
+    (+0.40,+0.40) -- (+0.07,+0.00) --%
+    (+0.35,-0.35) -- (+0.00,-0.07) --%
+    (-0.40,-0.40) -- (-0.07,+0.00) --%
+    cycle;%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ACRONYM
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\NewDocumentCommand{\eg}{}{%
+    e.g.,%
+}
+
+\NewDocumentCommand{\ie}{}{%
+    i.e.,%
+}
+
+\NewDocumentCommand{\st}{}{%
+    s.t.%
+}
+
+\NewDocumentCommand{\wrt}{}{%
+    w.r.t.%
+}
+\RenewDocumentCommand{\iff}{}{%
+    \textit{iff}%
+}
+
+% see https://tex.stackexchange.com/a/369691/145331
+\let\@oldcite\cite
+\renewcommand*\cite[1]{~\@oldcite{#1}}
+
+
+\makeatother

@@ -1,0 +1,22 @@
+[
+	{
+		"CheckSum": "3716621926",
+		"Enabled": true,
+		"LastUpdate": "1581833077032",
+		"Path": "subscribed//2695_Improved Small Trees",
+		"Priority": 1,
+		"PublishID": 0,
+		"Title": "2695_Improved Small Trees",
+		"WorkshopID": 2695
+	},
+	{
+		"CheckSum": "1216235570",
+		"Enabled": false,
+		"LastUpdate": "1575122745034",
+		"Path": "subscribed//1592_Better Main Menu Night Time",
+		"Priority": 2,
+		"PublishID": 0,
+		"Title": "Better Main Menu Night Time",
+		"WorkshopID": 1592
+	}
+]

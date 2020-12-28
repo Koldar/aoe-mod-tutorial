@@ -1,0 +1,62 @@
+\chapter{Basics and Definitions}
+
+The first thing is to install \aoe{}, for instance, via \steam{}\cite{Ozhara:2017}. After that, you need to identify \genie{} program: it is usually installed at \verb|C:\Program Files (x86)\Steam\steamapps\common\AoE2DE\Tools_Builds\AdvancedGenieEditor3.exe|. Data mods are discourages\cite{yorok:2019}, hence you should create modes by replacintg individual files and avoiding data modding whenever possible. We will refer to the folder \verb|C:\Program Files (x86)\Steam\steamapps\common\AoE2DE\| as \aoeexedir{}.
+
+The mods you install from \aoe{} are available in a directory that usually is \verb|%HOMEPATH%\Games\Age of Empires 2 DE| (from here on dubbed \aoehomedir{}).
+Within \aoehomedir{}, there should be a folder whose name is the user \textbf{steam id} (which is a big number) (from here on such a folder is dubbed as \aoeweirdnumberdir{})\cite{steamid:2019}. Within it, there is a folder called \verb|mods\subscribed| containing all the mods the user has subscribed to. Along side \dquote{subscribed} folder, there is a folder named \dquote{local} where local mods in development may be put (such a folder will be referred to as \aoehomelocaldir{}). The structure of \aoehomedir{} is shown in \lstref{verb1}.
+
+\lstinputlisting[label=verb1,caption={Age of Empires home folder directory structure}, float, frame=ht]{src/codes/folder-structure.txt}
+
+For example, \tblref{tbl:paths} shows all the involved paths for the modding.
+
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{ll}
+        \toprule
+        Path & Example \\
+        \midrule
+        \aoeexedir{}            & \code{C:\textbackslash{}Program Files (x86)\textbackslash{}Steam\textbackslash{}steamapps\textbackslash{}common\textbackslash{}AoE2DE\textbackslash{}} \\
+        \aoehomedir{}           & \code{C:\textbackslash{}Users\textbackslash{}FooBar\textbackslash{}Games\textbackslash{}Age of Empires 2 DE} \\
+        \aoeweirdnumberdir{}    & \code{C:\textbackslash{}Users\textbackslash{}FooBar\textbackslash{}Games\textbackslash{}Age of Empires 2 DE\textbackslash{}9823578647902347890} \\
+        \bottomrule
+    \end{tabular}
+    \caption{Examples of important paths used in \aoe{}}
+    \label{tbl:paths}
+\end{table}
+
+In the \dquote{mods} folder, there is a file called \code{mods-status.json} (an example of the content is shown in \lstref{verb2}).
+
+\lstinputlisting[language=json,caption=Example of mods-status file,label=verb2, frame=ht]{src/codes/mods-status.json}
+
+The json stored is a sequence of objects, each representing:
+
+\begin{itemize}
+    \item Checksum: MD5 of the mod?
+    \item \textbf{Enable}: if \true{}, the mod is enabled, \false{} otherwise;
+    \item Last Update: timestamp representing the number of milliseconds when the mod has been lastly updated;
+    \item \textbf{Path}: path, relative to \aoeweirdnumberdir{} directory, where the specific mod is installed;
+    \item \textbf{Priority}: priority used to load the mod;
+    \item Publish Id: always 0?
+    \item \textbf{Title}: name of the mod to show to the user;
+    \item WorkShop Id: An id that uniquely identifies this mod on \url{www.ageofempires.com} site;
+\end{itemize}
+
+
+At high level \aoe{} install each mod by following \algref{alg:bootstrap}. 
+After sorting out the enabled mods, the software \dquote{patches} the set of files specified by the mod path.
+From the algorithm, it can be seen that the priority of each mod determine the order each mod is used. Priority may change the behavior is a mod $x$ relies on the installation of the mod $y$ (if $y.priority < x.priority$)\cite{Ozhara:2017}.
+
+\begin{algorithm}
+    \SetAlgoLined
+    $mods \leftarrow$ Gather mods in \aoeweirdnumberdir{}\;
+    $sortedmods \leftarrow$ Sort $mods$ by prioritzing mods with small priority\;
+    \ForEach(mods subscribed){$m \in reversed(sortedmods)$}{
+        \If{$\neg m.Enable$}{
+            \textbf{continue}\;
+        }
+        Copy the files in \aoeweirdnumberdir{}\textbackslash{}mods\textbackslash{}$m.Path$ into \aoeexedir{}\;
+    }
+    Start \aoe{}\;
+    \caption{\aoe{} mod boot strap algorithm}
+    \label{alg:bootstrap}
+\end{algorithm}

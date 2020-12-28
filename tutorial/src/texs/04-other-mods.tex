@@ -1,0 +1,7 @@
+\chapter{Implementing other mods}
+
+In this chapter we describe how to implement some more complex mods.
+
+\section{Altering corpses decaying}
+
+We now try to create a mod that simply changes the time when the corpse decays. Let us call it \textbf{ya-decaying-corpses}.\footnote{\dquote{ya} stands for \dquote{Yet Another} and is a popular way of naming in computer engineering whenever the naming creativity is low.} In this mod, we need to change data files. Data files are located in the \aoeexedir{}\verb|\resources\_common|. As show in Appendix \ref{chp:genieeditor}, you can use \genie{} to do so: Copy the file \aoeexedir{}\verb|\resources\_common\dat\empires2_x2_p1.dat| in the mod dir; then open it via \genie{}. Switch to the \textit{Units} tabs and select all the units of all type (except maybe Gaia's ones). For every one of them, go to the \dquote{Statisitcs} section and change the value \textit{Resource Decay} to \textit{-1}.

@@ -1,0 +1,26 @@
+#GENERAL
+
+build/
+#Some users do not use make and the latex build files are deployed in root
+*.pdf
+*.aux
+*.log
+*.toc
+*.latex
+*.txt
+*.bbl
+*.blg
+*.acn
+*.glo
+*.gls
+*.ilg
+*.ist
+
+# VIDUAL STUDIO CODE
+.vscode/
+
+#LATEX
+
+
+
+

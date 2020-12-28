@@ -1,0 +1,121 @@
+% Commands which are just alias for common latex operations
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% WARNING AND NOTES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Show an attention box. The body of the environment is the body of the box 
+\NewDocumentEnvironment{attention}{}{%
+    \par%
+        \begin{mdframed}[linewidth=3pt,linecolor=red]%
+            \begin{list}{}{\leftmargin=1cm \labelwidth=\leftmargin}%
+                \item[\Large\faBomb]%
+}{%
+            \end{list}%
+        \end{mdframed}%
+    \par
+}
+
+% Show a warning box. The body of the environment is the body of the box
+\NewDocumentEnvironment{warning}{}{%
+    \par%
+        \begin{mdframed}[linewidth=3pt,linecolor=orange]%
+            \begin{list}{}{\leftmargin=1cm \labelwidth=\leftmargin}%
+                \item[\Large\faWarning]%
+}{%
+            \end{list}%
+        \end{mdframed}%
+    \par
+}
+
+% Show an note box. The body of the environment is the body of the box
+\NewDocumentEnvironment{info}{}{%
+    \par%
+        \begin{mdframed}[linewidth=3pt,linecolor=blue]%
+            \begin{list}{}{\leftmargin=1cm \labelwidth=\leftmargin}%
+                \item[\Large\faBook]%
+}{%
+            \end{list}%
+        \end{mdframed}%
+    \par
+}
+
+% Alias of "info"
+\NewDocumentEnvironment{note}{}{%
+    \par%
+        \begin{mdframed}[linewidth=3pt,linecolor=blue]%
+            \begin{list}{}{\leftmargin=1cm \labelwidth=\leftmargin}%
+                \item[\Large\faBook]%
+}{%
+            \end{list}%
+        \end{mdframed}%
+    \par
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% FLOATS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%Setup the a horizontal page instead of the classic portait page
+\NewDocumentCommand{\insertFigure}{}{}
+\NewDocumentEnvironment{horizontalpage}{+b}{%
+    \begin{sidewaysfigure}%
+        #1%
+    \end{sidewaysfigure}%
+}{%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TEX COMMONS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Write something in italic. Alias of \textit
+% param1 the text to write in italic
+\NewDocumentCommand{\italic}{m}{%
+    \textit{#1}%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GLOSSARIES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Display the given acronym 
+% param1 name of the acronym to print
+\NewDocumentCommand{\acronymRef}{m}{%
+   \gls{#1}%
+}
+
+
+% Display the given acronym 
+% param1 name of the acronym to print
+\NewDocumentCommand{\acrref}{m}{%
+   \gls{#1}%
+}
+
+% Display a glossary entry with the first letter as miniscule.
+%This is just a more rememberable alias of \gls
+% param1 name of the glossary entry to cite. 
+\NewDocumentCommand{\glossaryRef}{m}{%
+    \gls{#1}%
+}
+
+% Display a glossary entry with the first letter as capital.
+%This is just a more rememberable alias of \Gls
+% param1 name of the glossary entry to cite. 
+\NewDocumentCommand{\GlossaryRef}{m}{%
+    \Gls{#1}%
+}
+
+% Display a glossary entry with the first letter as miniscule.
+%This is just a more rememberable alias of \gls
+% param1 name of the glossary entry to cite. 
+\NewDocumentCommand{\glsref}{m}{%
+    \gls{#1}%
+}
+
+% Display a glossary entry with the first letter as capital.
+%This is just a more rememberable alias of \Gls
+% param1 name of the glossary entry to cite. 
+\NewDocumentCommand{\Glsref}{m}{%
+    \Gls{#1}%
+}
