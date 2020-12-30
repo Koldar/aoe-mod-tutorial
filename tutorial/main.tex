@@ -17,6 +17,8 @@
 \usepackage{listings}
 \usepackage{rotating} %sideways environment
 \usepackage[toc,page]{appendix}
+\usepackage{pdflscape} % to use landscape pages
+\usepackage{afterpage} % to put tables in landscape pages https://tex.stackexchange.com/a/19021/145331
 
 % PROOF READING
 
@@ -36,6 +38,7 @@
 
 \usepackage{booktabs}
 \usepackage{makecell}
+\usepackage{longtable}
 
 
 
@@ -91,6 +94,7 @@
 \input{src/cmds/commons-easy.tex}
 \input{src/cmds/commands-shared.tex}
 \input{src/cmds/commands-listing.tex}
+\input{src/cmds/lstlisting-rms.tex}
 \input{src/cmds/commands.tex}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -193,8 +197,11 @@
 
 \mainmatter
 \input{src/texs/01-introduction.tex}
+\input{src/texs/02-background-and-related-works.tex}
 \input{src/texs/02-basic-and-definitions.tex}
 \input{src/texs/03-creating-basic-mod.tex}
+\input{src/texs/04-other-mods.tex}
+\input{src/texs/05-creating-random-maps.tex}
 
 \clearpage
 

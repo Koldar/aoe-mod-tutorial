@@ -1,6 +1,22 @@
 % Commands which are just alias for common latex operations
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PUT SOMETHING ON ITS OWN LANDSCAPE PAGE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\NewDocumentEnvironment{singlelandscape}{+b}{%
+    \afterpage{%
+        \clearpage% Flush earlier floats (otherwise order might not be correct)
+        \thispagestyle{empty}% empty page style (?)
+        \begin{landscape}% Landscape page
+            {#1}%
+        \end{landscape}%
+        \clearpage% Flush page
+    }%
+}{%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % WARNING AND NOTES
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

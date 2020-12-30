@@ -127,6 +127,14 @@
 % USEFUL COMMANDS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\newcommand*\justify{%
+  \fontdimen2\font=0.4em% interword space
+  \fontdimen3\font=0.2em% interword stretch
+  \fontdimen4\font=0.1em% interword shrink
+  \fontdimen7\font=0.1em% extra space
+  \hyphenchar\font=`\-% allowing hyphenation
+}
+
 %DOES NOT WORK
 \NewDocumentEnvironment{verticalAlign}{+b}{%
     \topskip0pt%
@@ -196,7 +204,7 @@
 
 %Adds a todo as a footnoe
 \NewDocumentCommand{\code}{m}{%
-    \texttt{#1}%
+    \texttt{\justify{}#1}%
 }
 
 % draw a square.
