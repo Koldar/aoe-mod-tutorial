@@ -246,6 +246,8 @@
 
     \subsection{Attributes}
 
+    \textbf{Dead Unit} Represents the unit representing the corpse of the unit currently under analysis. By convention, all \dquote{dead units} ends with \code{\_D}. If a unit does not have any dead unit, this field is set to $-1$. For example, the dead unit of the unit \dquote{Archer} is set to be \code{ARCHR\_D} unit.
+
     \subsection{Sounds}
 
     \subsection{Tasks}
@@ -257,6 +259,12 @@
     \textbf{Internal Name} is the name used to identify the sprites in the \genie{} in the left pane of \dquote{Graphics} panel.
 
     \textbf{Frames per Angle} represents the framerate of the sprite.
+
+    \textbf{Animation Duration} represents how long the animation is displayed in seconds. After that time the animation stops and the sprite is removed. It is required that $x > 0$. Exponential notation can be used (\eg{} $e3+35$). Use this field if you want to avoid the sinking of dead units for every sprite whose name contains \dquote{(Decay)} substring.
+
+    \subsection{Deltas}
+
+    \textbf{Graphic} represents the id of the sprite to show. The name of the file refers to the json file present in \code{resources/\_common/particles}.
 
     \subsection{Deltas}
 
@@ -924,17 +932,176 @@
 
     TODO
 
-    \paragraph{\term{set\_scaling\_to\_map\_size} NUM}
+    \paragraph{\term{set\_scaling\_to\_map\_size}}
 
     TODO 
 
-    \paragraph{\term{set\_scaling\_to\_player\_number} NUM}
+    \paragraph{\term{set\_scaling\_to\_player\_number}}
 
     TODO
 
-    \paragraph{\term{set\_place\_for\_every\_player} NUM}
+    \paragraph{\term{set\_place\_for\_every\_player}}
+
+    Place the object(s) as a personal object for each player (actually for each player land). Objects that cannot be owned by players (\eg{} boar, gold, trees, and so on) also require \term{set\_gaia\_object\_only} to be placed for every player.
+
+    Only works for player lands or lands assigned to players. Disabled by \term{land\_id}. Objects will only be placed where they are not separated from the origin of their land by a terrain they are restricted on.
+
+    This means that on islands your resources will only end up on your own island. It also means that player gold mines on acropolis can only be placed on the hilltops, because gold is restricted from the rock terrain. Water objects (docks/boats) CAN be placed if the player land is made of a dirt terrain type. Terrain restrictions can be bypassed by using a placeholder and \term{second\_object}. Even though road terrains are restricted for resources, they do not form a separation the way other terrains do. \lstref{lst:setplaceforeveryplayer} allows to give every player their starting villagers.
+
+    \begin{lstlisting}[language={rms}, label={lst:setplaceforeveryplayer}, caption={Example showing how you can give to each player a single villager.}]
+        create_object VILLAGER {
+            set_place_for_every_player
+            min_distance_to_players 6
+            max_distance_to_players 7
+        }
+    \end{lstlisting}
+
+    \paragraph{\term{place\_on\_specific\_land\_id} NUM}
 
     TODO
+
+    \paragraph{\term{set\_gaia\_object\_only}}
+
+    Use it alongside \term{set\_place\_for\_every\_player} to place gaia objects on a per-player basis. Muyst be used when placing neutral units (\eg{} stone, deer, boars). Units and buildings will permanently join the player who first finds them unless \term{set\_gaia\_unconvertible} is specified. Gaia building architecture (in case of buildings) can be specified via \term{set\_gaia\_civilization}.
+
+    \begin{lstlisting}[language={rms}, caption={Give every player 4 gaia sheep close to their starting town.}]
+        <OBJECTS_GENERATION>
+        create_object SHEEP {
+            number_of_objects 4
+            set_loose_grouping
+            set_gaia_object_only
+            set_place_for_every_player
+            min_distance_to_players 7
+            max_distance_to_players 8
+        }
+    \end{lstlisting}
+
+    \paragraph{\term{set\_gaia\_unconvertible}}
+
+    TODO
+
+    \paragraph{\term{group\_placement\_radius} NUM}
+
+    Specify the number of tiles out from the central tile that objects belonging to the same group may spawn ($x > 0$, default to 3). Active only  when grouping behavior is specified. 
+
+    \paragraph{\term{set\_tight\_grouping}}
+
+    TODO
+
+    \paragraph{\term{set\_loose\_grouping}}
+
+    TODO
+
+    \paragraph{\term{terrain\_to\_place\_on} TERRAIN}
+
+    The object(s) will only be placed on the specified terrain. The argument passes can be set 
+
+    \begin{lstlisting}[language={rms}, caption={Example where place decorative rocks on a central desert..}]
+        <LAND_GENERATION>
+        create_land {
+            terrain_type DESERT
+            number_of_tiles 500
+            land_position 50 50
+        }
+
+        <OBJECTS_GENERATION>
+            create_object ROCK {
+            number_of_objects 300
+            terrain_to_place_on DESERT
+        }
+    \end{lstlisting}
+
+    \paragraph{\term{layer\_to\_place\_on} TERRAIN}
+
+    TODO
+
+    \paragraph{\term{place\_on\_forest\_zone}}
+
+    TODO
+
+    \paragraph{\term{avoid\_forest\_zone} NUM}
+
+    TODO
+
+    \paragraph{\term{avoid\_cliff\_zone} NUM}
+
+    TODO
+
+    \paragraph{\term{min\_distance\_to\_players} NUM and \term{max\_distance\_to\_players} NUM}
+
+    Minimum distance (in tiles) from the origin of player lands where that the object can be placed. It is not necessary to specify both attributes. If the objects are grouped, distance refers to the center of the group, not the individual members. When used with \term{place\_on\_specific\_land\_id}, distances refer to that specific land. When used without \term{set\_place\_for\_every\_player} or \term{place\_on\_specific\_land\_id}, maximum distance has no effect.
+    
+    \begin{attention}
+        There is a bug in \aoe{} such that if distances are very constrained (\ie{} $min=max$), objects are noticeably biased towards being placed in the west (\ie{} starting villagers). Furthermore, when used with \term{set\_place\_for\_every\_player} or \term{place\_on\_specific\_land\_id}, minimum distance applies to \textbf{all} lands, not just player lands (or the specific ID).
+    \end{attention}
+
+    \begin{lstlisting}[language={rms}, caption={Place the starting scout at a distance of 7-9 tiles}]
+        <OBJECTS_GENERATION>
+        create_object SCOUT {
+            set_place_for_every_player
+            min_distance_to_players 7
+            max_distance_to_players 9
+        }
+    \end{lstlisting}
+
+
+    \paragraph{\term{max\_distance\_to\_other\_zones} NUM}
+
+    TODO
+
+    \paragraph{\term{min\_distance\_group\_placement} NUM}
+
+    Minimum distance in tiles that individual objects of the same \term{create\_object} command, and \textit{all} future objects, must stay away from each object.
+
+    Best used with small values, to keep different resources from being directly next to each other. To scatter objects from the same command far away from each other, use \term{temp\_min\_distance\_group\_placement}. If the objects are grouped, distance applies to whole groups, and refers to the center.
+
+    \begin{lstlisting}[language={rms}, caption={Give each player two sets of forages and make them avoid each other by 4 tiles, and keep all future objects 4 tiles away.}]
+        <OBJECTS_GENERATION>
+        create_object FORAGE {
+            number_of_objects 7
+            number_of_groups 2
+            set_tight_grouping
+            set_place_for_every_player
+            set_gaia_object_only
+            min_distance_to_players 8
+            max_distance_to_players 10
+            min_distance_group_placement 4
+        }
+    \end{lstlisting}
+
+    \paragraph{\term{temp\_min\_distance\_group\_placement} NUM}
+
+    TODO
+
+    \paragraph{\term{find\_closest}}
+
+    TODO
+
+    \paragraph{\term{force\_placement}}
+
+    TODO
+
+    \paragraph{\term{actor\_area} ID}
+
+    TODO
+
+    \paragraph{\term{actor\_area\_radius} NUM}
+
+    TODO
+
+    \paragraph{\term{actor\_area\_to\_place\_in} ID}
+
+    TODO
+
+    \paragraph{\term{avoid\_actor\_area} ID}
+
+    TODO
+
+    \paragraph{\term{avoid\_all\_actor\_areas}}
+
+    TODO
+
+    \paragraph{\term{max\_distance\_to\_players} NUM}
 
     \section{Functions}
 
