@@ -2,7 +2,7 @@
 
 build/
 #Some users do not use make and the latex build files are deployed in root
-*.pdf
+build/*.pdf
 *.aux
 *.log
 *.toc
