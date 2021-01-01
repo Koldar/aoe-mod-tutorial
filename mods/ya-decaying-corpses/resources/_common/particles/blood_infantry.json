@@ -1,0 +1,53 @@
+{
+	"AtlasFile": "textures\\atlases\\blood.dds",
+	"Sprites":
+	[
+		{
+			"ImageFirst": 60,
+			"ImageCount": 1,
+			"Type": "Once",
+			"Duration": 1000000000000000000000000000000000000,
+			"Scale": 0.2,
+			"Alpha": 1,
+			"StartMode": "Fade",
+			"StartDuration": 8,
+			"StopMode": "Fade",
+			"StopDuration": 1
+		},
+		{
+			"ImageFirst": 360,
+			"ImageCount": 1,
+			"Type": "Once",
+			"Duration": 1000000000000000000000000000000000000,
+			"Scale": 0.2,
+			"Alpha": 1,
+			"StartMode": "Fade",
+			"StartDuration": 8,
+			"StopMode": "Fade",
+			"StopDuration": 1
+		},
+		{
+			"ImageFirst": 660,
+			"ImageCount": 1,
+			"Type": "Once",
+			"Duration": 1000000000000000000000000000000000000,
+			"Scale": 0.2,
+			"Alpha": 1,
+			"StartMode": "Fade",
+			"StartDuration": 8,
+			"StopMode": "Fade",
+			"StopDuration": 1
+		}
+	],
+	"Emitter":
+	{
+		"Type": "Once",
+		"Sprite1": 0,
+		"Sprite2": 2
+	},
+	"Timer": "Real",
+	"Layer": "Terrain",
+	"IsBlood": true,
+	"DisplayInFog": true
+
+}
